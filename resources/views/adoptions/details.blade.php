@@ -10,8 +10,7 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ $adoption->name }}</h5>
-                        <p class="card-text">{{ $adoption->description }}</p>
-                        <!-- Task 4 User, step 4: this form should not appear if the authenticated user is giving for adoption this pet -->
+                        <p class="card-text">{{ $adoption->description }}</p>d
                         <!-- Task 5 User, step 4: this form should not appear if the pet was already adopted -->
                         @if($adoption->adopted_by != null)
                             @if($adoption->adopted_by == auth()->id())
