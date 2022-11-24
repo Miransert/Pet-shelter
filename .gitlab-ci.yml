@@ -1,0 +1,85 @@
+image: chilio/laravel-dusk-ci:php-8.1
+
+before_script:
+  - composer install
+  - cp .env.example .env
+  - sed -i 's/DB_HOST=.*/DB_HOST=mysql-test/' .env
+  - sed -i 's/DB_DATABASE=.*/DB_DATABASE=webtech/' .env
+  - sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/' .env
+  - sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=secret/' .env
+  - sed -i 's>APP_URL=.*>APP_URL=http://localhost>' .env
+  - start-nginx-ci-project
+  - php artisan dusk:chrome-driver
+  - configure-laravel
+
+.general:
+  timeout: 10m
+  artifacts:
+    paths:
+      - ./storage/logs # for debugging
+      - ./tests/Browser/screenshots
+      - ./tests/Browser/console
+    expire_in: 7 days
+    when: always
+
+GuestListOfAdoptions:
+  script:
+    - php artisan dusk --filter testGetListOfAdoptions
+  extends: .general
+
+GuestRegistration:
+  script:
+    - php artisan dusk --filter testGuestRegisterUser
+  extends: .general
+
+GuestLogin:
+  script:
+    - php artisan dusk --filter testGuestLoginUser
+  extends: .general
+
+UserIsAuthenticated:
+  script:
+    - php artisan dusk --filter testUserIsLoggedIn
+  extends: .general
+
+LogoutCurrentUser:
+  script:
+    - php artisan dusk --filter testLogoutCurrentUser
+  extends: .general
+
+AdoptAPet:
+  script:
+    - php artisan dusk --filter testAdoptAnotherUsersPet
+  extends: .general
+
+GuestsCannotAdoptPets:
+  script:
+    - php artisan dusk --filter testGuestsCannotAdoptPets
+  extends: .general
+
+ListUserAdoptions:
+  script:
+    - php artisan dusk --filter testShowCurrentUserAdoptions
+  extends: .general
+
+Authorization:
+  script:
+    - php artisan test
+  extends: .general
+
+cache:
+  paths:
+    - vendor/
+    - node_modules/
+
+services:
+  - name: mysql:5.7
+    alias: mysql-test
+
+variables:
+  MYSQL_DATABASE: webtech
+  MYSQL_ROOT_PASSWORD: secret
+  DB_DATABASE: webtech
+  DB_USERNAME: root
+  DB_PASSWROD: secret
+  DB_HOST: mysql-test
