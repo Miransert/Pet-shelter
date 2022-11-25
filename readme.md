@@ -18,6 +18,8 @@ You must follow the instructions **to the letter**, your application will be tes
 
 In this assignment, we provided an already coded application, where you have to fill up the gaps in the source code. This means it is unnecessary for you to create any file, although you can create files if you think they are needed for your application to pass the tests. The files you need to modify to pass this assignment are listed in their corresponding section.
 
+Additionally we have provided a preview of the output application, which can be seen here: [Miguels Pet Shelter](https://miguels-pet-shelter.faurskov.dev/)
+
 ### The database
 The project requires a connection to a database. Luckily, thanks to docker, this is extremely simple and platform agnostic. To spin up a MySQL server, run the `docker-compose up -d` within the directory. This will pull a MySQL server, port-forward it to port 3306 on your machine, and start it in detached mode.
 
