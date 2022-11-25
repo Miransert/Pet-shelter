@@ -169,7 +169,7 @@ Any user can register for your pet shelter application.
 
 #### Files to modify
 
-`resource/views/partials/master.blade.php`
+`resource/views/master.blade.php`
 
 In the HTML tag with class `register-link`, you should add the link that routes to the action `HomeController::register`. We already provide the route in the `routes/web.php` file. Be sure to use the `route(..)` method!
 
