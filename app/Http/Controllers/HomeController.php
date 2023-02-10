@@ -27,6 +27,21 @@ class HomeController extends Controller
         | Task 4 Guest, step 5. You should implement this method as instructed
         |-----------------------------------------------------------------------
         */
+
+        // validation
+        $attributes = request()->validate([
+            // tilføj måske 'exists' til email
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+        // logging in the user
+        if(auth()->attempt($attributes)){
+            // redirect to the right page
+            return redirect('/');
+        }
+
+        return back()->withErrors(['email' => 'Your provided credentials could not be verified.']);
+
     }
 
     public function register()
@@ -41,7 +56,21 @@ class HomeController extends Controller
         | Task 3 Guest, step 5. You should implement this method as instructed
         |-----------------------------------------------------------------------
         */
+        // validation
+            $attributes = request()->validate([
+                'name' => 'required',
+                'email' => 'required',
+                'password' => 'required',
+               'password-confirmation' => 'required'
+            ]);
 
+            $attributes['password'] = bcrypt($attributes['password']);
+
+        $user = User::create($attributes);
+
+        \auth()->login($user);
+
+        return redirect('/');
     }
 
     public function logout()
@@ -51,5 +80,8 @@ class HomeController extends Controller
         | Task 2 User, step 3. You should implement this method as instructed
         |-----------------------------------------------------------------------
         */
+        \auth()->logout();
+
+        return redirect('/');
     }
 }

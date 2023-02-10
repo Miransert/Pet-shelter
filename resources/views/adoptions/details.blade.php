@@ -9,9 +9,18 @@
                         Adopt me
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">{{ $adoption->name }}</h5>
-                        <p class="card-text">{{ $adoption->description }}</p>d
+                        <h5 class="card-title pet-name">{{ $adoption->name }}</h5>
+                        <p class="card-text pet-description">{{ $adoption->description }}</p>
                         <!-- Task 5 User, step 4: this form should not appear if the pet was already adopted -->
+                        @if($adoption->adopted_by == null)
+                            @if(Auth::user())
+                            <form method="post" action="{{ route('adoptions.adopt', $adoption) }}">
+                                @csrf
+                                <button type="submit" class="pet-adopt">Adopt Now</button>
+                            </form>
+                          @endif
+                        @endif
+
                         @if($adoption->adopted_by != null)
                             @if($adoption->adopted_by == auth()->id())
                                 <p class="text-success">This pet has been adopted by you :)</p>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Adoption;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class AdoptionController extends Controller
@@ -23,6 +24,12 @@ class AdoptionController extends Controller
         | This is done using the adopted_by field from the user column in the database.
         |-----------------------------------------------------------------------
         */
+        //
+        abort_if(! Auth::user(), 403);
+        abort_if($adoption->adopted_by, 403);
+        $user = Auth::user();
+        $adoption->adopted_by = $user->id;
+        $adoption->save();
 
         return redirect()->home()->with('success', "Pet $adoption->name adopted successfully");
     }
@@ -37,7 +44,7 @@ class AdoptionController extends Controller
         |-----------------------------------------------------------------------
         */
 
-        $adoptions = []; // replace me
+        $adoptions = Adoption::where('adopted_by', auth()->user()->id)->get();
 
         return view('adoptions.list', ['adoptions' => $adoptions, 'header' => 'My Adoptions']);
     }

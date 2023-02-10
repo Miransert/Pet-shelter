@@ -13,7 +13,7 @@
     <div class="container">
         <a class="navbar-brand" href="{{ route('home') }}">
             <img src="{{ asset('imgs/paw.svg') }}" alt="" class="me-2" style="height: 24px"/>
-            <span>{Name's} Pet Shelter</span>
+            <span>Someone Pet Shelter</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -34,20 +34,23 @@
                 <!-- Guest, Task 1 Authorization, elements should appear for guest users only -->
                     <li class="nav-item">
                         <!-- Task 3 Guest, step 2: add correct link in href -->
-                        <a class="nav-link register-link" href="">Register</a>
+                        <a class="nav-link register-link" href="{{ route('register') }}">Register</a>
                     </li>
                     <li class="nav-item">
                         <!-- Task 4 Guest, step 2: add correct link in href -->
-                        <a class="nav-link login-link" href="">Login</a>
+                        <a class="nav-link login-link" href="{{ route('login') }}">Login</a>
                     </li>
                 <!-- Guest, Task 1 Authorization-->
+                @auth
+                    <div class="user-name">{{ auth()->user()->name }}</div>
+                @endauth
 
                 <!-- Task 1 Authorization, elements should appear for logged users only -->
                     <!-- Task 1 User, step 1: add name of logged user-->
                     <span class="navbar-text text-black me-4 user-name"></span>
                     <li class="nav-item">
                         <!-- Task 2 User, step 3: add correct link-->
-                        <a class="nav-link logout-link" href="">Log out</a>
+                        <a class="nav-link logout-link" href="{{ route('logout') }}">Log out</a>
                     </li>
                 <!-- Task 1 Authorization-->
             </ul>
